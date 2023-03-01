@@ -1,9 +1,10 @@
 package com.cursoKotlin.controller
 
-import com.cursoKotlin.controller.request.PostBookRequest
-import com.cursoKotlin.controller.request.PutBookRequest
+import com.cursoKotlin.controller.dto.PostBookRequest
+import com.cursoKotlin.controller.dto.PutBookRequest
+import com.cursoKotlin.controller.dto.BookResponse
 import com.cursoKotlin.extension.toBookModel
-import com.cursoKotlin.model.BookModel
+import com.cursoKotlin.extension.toResponse
 import com.cursoKotlin.service.BookService
 import com.cursoKotlin.service.CustomerService
 import org.springframework.http.HttpStatus
@@ -32,16 +33,16 @@ class BookController(
     }
 
     @GetMapping
-    fun findAll(): List<BookModel> =
-        bookService.findAll()
+    fun findAll(): List<BookResponse> =
+        bookService.findAll().map { it.toResponse() }
 
     @GetMapping("/active")
-    fun findActives(): List<BookModel> =
-        bookService.findActives()
+    fun findActives(): List<BookResponse> =
+        bookService.findActives().map { it.toResponse() }
 
     @GetMapping("/{id}")
-    fun findById(@PathVariable id: Int): BookModel =
-        bookService.findById(id)
+    fun findById(@PathVariable id: Int): BookResponse =
+        bookService.findById(id).toResponse()
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

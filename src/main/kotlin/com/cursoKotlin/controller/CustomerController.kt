@@ -1,9 +1,10 @@
 package com.cursoKotlin.controller
 
-import com.cursoKotlin.controller.request.PostCustomerRequest
-import com.cursoKotlin.controller.request.PutCustomerRequest
+import com.cursoKotlin.controller.dto.PostCustomerRequest
+import com.cursoKotlin.controller.dto.PutCustomerRequest
+import com.cursoKotlin.controller.dto.CustomerResponse
 import com.cursoKotlin.extension.toCustomerModel
-import com.cursoKotlin.model.CustomerModel
+import com.cursoKotlin.extension.toResponse
 import com.cursoKotlin.service.CustomerService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -24,13 +25,13 @@ class CustomerController(
 ) {
 
     @GetMapping
-    fun getAll(@RequestParam name: String?): List<CustomerModel> {
-        return customerService.getAll(name)
+    fun getAll(@RequestParam name: String?): List<CustomerResponse> {
+        return customerService.getAll(name).map { it.toResponse() }
     }
 
     @GetMapping("/{id}")
-    fun getCustomer(@PathVariable id: Int): CustomerModel {
-        return customerService.getById(id)
+    fun getCustomer(@PathVariable id: Int): CustomerResponse {
+        return customerService.getById(id).toResponse()
     }
 
     @PostMapping

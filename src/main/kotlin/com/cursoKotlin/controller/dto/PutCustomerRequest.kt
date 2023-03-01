@@ -1,4 +1,4 @@
-package com.cursoKotlin.controller.request
+package com.cursoKotlin.controller.dto
 
 data class PutCustomerRequest (
     var name: String,

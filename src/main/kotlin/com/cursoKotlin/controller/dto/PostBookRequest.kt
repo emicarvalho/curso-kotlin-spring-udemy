@@ -1,4 +1,4 @@
-package com.cursoKotlin.controller.request
+package com.cursoKotlin.controller.dto
 
 import com.fasterxml.jackson.annotation.JsonAlias
 import java.math.BigDecimal

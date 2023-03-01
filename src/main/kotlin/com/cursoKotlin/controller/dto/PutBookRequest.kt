@@ -1,4 +1,4 @@
-package com.cursoKotlin.controller.request
+package com.cursoKotlin.controller.dto
 
 import java.math.BigDecimal
 
