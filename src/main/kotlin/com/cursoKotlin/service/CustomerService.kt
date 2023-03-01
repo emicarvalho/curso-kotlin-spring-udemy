@@ -1,5 +1,6 @@
 package com.cursoKotlin.service
 
+import com.cursoKotlin.enuns.CustomerStatus
 import com.cursoKotlin.model.CustomerModel
 import com.cursoKotlin.repository.CustomerRrepository
 import org.springframework.stereotype.Service
@@ -34,6 +35,7 @@ class CustomerService(
     fun delete(id: Int) {
         val customer = getById(id)
         bookService.deleteByCustomer(customer)
-        customerRepository.deleteById(id)
+        customer.status = CustomerStatus.INATIVO
+        customerRepository.save(customer)
     }
 }
