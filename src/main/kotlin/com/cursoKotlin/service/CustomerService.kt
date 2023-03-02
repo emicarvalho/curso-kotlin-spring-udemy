@@ -3,6 +3,8 @@ package com.cursoKotlin.service
 import com.cursoKotlin.enuns.CustomerStatus
 import com.cursoKotlin.model.CustomerModel
 import com.cursoKotlin.repository.CustomerRrepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
@@ -10,11 +12,11 @@ class CustomerService(
     val customerRepository: CustomerRrepository,
     val bookService: BookService
 ) {
-    fun getAll(name: String?): List<CustomerModel> {
+    fun getAll(name: String?, pageable: Pageable): Page<CustomerModel> {
         name?.let {
-            return customerRepository.findByNameContaining(it)
+            return customerRepository.findByNameContaining(it, pageable)
         }
-        return customerRepository.findAll().toList()
+        return customerRepository.findAll(pageable)
     }
 
     fun getById(id: Int): CustomerModel {

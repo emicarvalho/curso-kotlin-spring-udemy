@@ -6,6 +6,9 @@ import com.cursoKotlin.controller.dto.CustomerResponse
 import com.cursoKotlin.extension.toCustomerModel
 import com.cursoKotlin.extension.toResponse
 import com.cursoKotlin.service.CustomerService
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -25,8 +28,9 @@ class CustomerController(
 ) {
 
     @GetMapping
-    fun getAll(@RequestParam name: String?): List<CustomerResponse> {
-        return customerService.getAll(name).map { it.toResponse() }
+    fun getAll(@RequestParam name: String?,
+               @PageableDefault(value= 0, size=10)pageable: Pageable): Page<CustomerResponse> {
+        return customerService.getAll(name, pageable).map { it.toResponse() }
     }
 
     @GetMapping("/{id}")
