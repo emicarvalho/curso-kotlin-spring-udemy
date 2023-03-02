@@ -4,6 +4,8 @@ import com.cursoKotlin.enuns.BookStatus
 import com.cursoKotlin.model.BookModel
 import com.cursoKotlin.model.CustomerModel
 import com.cursoKotlin.repository.BookRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
@@ -12,9 +14,11 @@ class BookService(
 ) {
     fun create(book: BookModel) = bookRepository.save(book)
 
-    fun findAll(): List<BookModel> = bookRepository.findAll().toList()
+    fun findAll(pageable: Pageable): Page<BookModel> {
+       return  bookRepository.findAll(pageable)
+    }
 
-    fun findActives(): List<BookModel> = bookRepository.findByStatus(BookStatus.ATIVO)
+    fun findActives(pageable: Pageable): Page<BookModel> = bookRepository.findByStatus(BookStatus.ATIVO, pageable)
 
     fun findById(id: Int): BookModel = bookRepository.findById(id).orElseThrow()
 
