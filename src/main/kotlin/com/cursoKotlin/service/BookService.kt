@@ -1,6 +1,8 @@
 package com.cursoKotlin.service
 
 import com.cursoKotlin.enuns.BookStatus
+import com.cursoKotlin.enuns.Errors
+import com.cursoKotlin.exception.NotFoundException
 import com.cursoKotlin.model.BookModel
 import com.cursoKotlin.model.CustomerModel
 import com.cursoKotlin.repository.BookRepository
@@ -20,7 +22,7 @@ class BookService(
 
     fun findActives(pageable: Pageable): Page<BookModel> = bookRepository.findByStatus(BookStatus.ATIVO, pageable)
 
-    fun findById(id: Int): BookModel = bookRepository.findById(id).orElseThrow()
+    fun findById(id: Int): BookModel = bookRepository.findById(id).orElseThrow{ NotFoundException(Errors.ML101.code, Errors.ML101.message.format(id)) }
 
     fun update(book: BookModel) = bookRepository.save(book)
 

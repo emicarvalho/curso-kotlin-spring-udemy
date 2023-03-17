@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("customer")
@@ -40,13 +41,13 @@ class CustomerController(
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun create(@RequestBody customer: PostCustomerRequest) {
+    fun create(@RequestBody @Valid customer: PostCustomerRequest) {
         customerService.create(customer.toCustomerModel())
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun update(@PathVariable id: Int, @RequestBody customer: PutCustomerRequest) {
+    fun update(@PathVariable id: Int, @RequestBody @Valid customer: PutCustomerRequest) {
         val customerSaved = customerService.getById(id)
         customerService.update(customer.toCustomerModel(customerSaved))
     }

@@ -1,6 +1,8 @@
 package com.cursoKotlin.model
 
 import com.cursoKotlin.enuns.BookStatus
+import com.cursoKotlin.enuns.Errors
+import com.cursoKotlin.exception.BadRequestException
 import java.math.BigDecimal
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -33,7 +35,7 @@ data class BookModel(
     var status: BookStatus? = null
         set(value) {
             if (field == BookStatus.CANCELADO || field == BookStatus.DELETADO)
-                throw Exception("Não é possível alterar um livro com status ${field}")
+                throw BadRequestException(Errors.ML102.code, Errors.ML102.message.format(field))
             field = value
         }
 
