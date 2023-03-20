@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface CustomerRrepository: JpaRepository<CustomerModel, Int> {
     fun findByNameContaining(name: String, pageable: Pageable): Page<CustomerModel>
-    fun existsByEmail(email: String)
+    fun existsByEmail(email: String): Boolean
 }
