@@ -11,4 +11,6 @@ spring:
 server:
   servlet:
     context-path: /api
-
+jwt:
+  secret: dc887464-d212-470c-abb7-975f784a2538
+  expiration: 99999

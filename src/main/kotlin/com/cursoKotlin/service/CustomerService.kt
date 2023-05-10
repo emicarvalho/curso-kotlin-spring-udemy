@@ -2,17 +2,20 @@ package com.cursoKotlin.service
 
 import com.cursoKotlin.enuns.CustomerStatus
 import com.cursoKotlin.enuns.Errors
+import com.cursoKotlin.enuns.Roles
 import com.cursoKotlin.exception.NotFoundException
 import com.cursoKotlin.model.CustomerModel
-import com.cursoKotlin.repository.CustomerRrepository
+import com.cursoKotlin.repository.CustomerRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
 class CustomerService(
-    val customerRepository: CustomerRrepository,
-    val bookService: BookService
+    private val customerRepository: CustomerRepository,
+    private val bookService: BookService,
+    private val bCrypt: BCryptPasswordEncoder
 ) {
     fun getAll(name: String?, pageable: Pageable): Page<CustomerModel> {
         name?.let {
@@ -26,7 +29,11 @@ class CustomerService(
     }
 
     fun create(customer: CustomerModel) {
-        customerRepository.save(customer)
+        val customerCopy = customer.copy(
+            roles = setOf(Roles.CUSTOMER),
+            password = bCrypt.encode(customer.password)
+        )
+        customerRepository.save(customerCopy)
     }
 
     fun update(customer: CustomerModel) {
