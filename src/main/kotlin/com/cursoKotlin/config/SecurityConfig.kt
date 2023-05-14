@@ -33,11 +33,15 @@ class SecurityConfig(
 ) : WebSecurityConfigurerAdapter() {
 
     private val PUBLIC_POST_MATCHERS = arrayOf(
-        "/customer"
+        "/customers"
     )
 
     private val ADMIN_MATCHERS = arrayOf(
         "/admin/**"
+    )
+
+    private val PUBLIC_GET_MATCHERS = arrayOf(
+        "/books"
     )
 
     override fun configure(auth: AuthenticationManagerBuilder) {
@@ -49,6 +53,7 @@ class SecurityConfig(
         http.authorizeRequests()
             .antMatchers(HttpMethod.POST, *PUBLIC_POST_MATCHERS).permitAll()
             .antMatchers(*ADMIN_MATCHERS).hasAuthority(Roles.ADMIN.description)
+            .antMatchers(HttpMethod.GET, *PUBLIC_GET_MATCHERS).permitAll()
             .anyRequest().authenticated()
         http.addFilter(AuthenticationFilter(authenticationManager(), customerRrepository, jwtUtil))
         http.addFilter(AuthorizationFilter(authenticationManager(), jwtUtil, userDetails))
@@ -66,7 +71,7 @@ class SecurityConfig(
         val source = UrlBasedCorsConfigurationSource()
         val config = CorsConfiguration()
         config.allowCredentials = true
-        config.addAllowedOrigin("*")
+        config.addAllowedOriginPattern("*")
         config.addAllowedHeader("*")
         config.addAllowedMethod("*")
         source.registerCorsConfiguration("/**", config)

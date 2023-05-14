@@ -3,7 +3,9 @@ package com.cursoKotlin.controller
 import com.cursoKotlin.controller.dto.PostBookRequest
 import com.cursoKotlin.controller.dto.PutBookRequest
 import com.cursoKotlin.controller.dto.BookResponse
+import com.cursoKotlin.controller.dto.PageResponse
 import com.cursoKotlin.extension.toBookModel
+import com.cursoKotlin.extension.toPageResponse
 import com.cursoKotlin.extension.toResponse
 import com.cursoKotlin.service.BookService
 import com.cursoKotlin.service.CustomerService
@@ -23,10 +25,10 @@ import org.springframework.web.bind.annotation.RestController
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("book")
+@RequestMapping("books")
 class BookController(
-    val customerService: CustomerService,
-    val bookService: BookService
+    private val customerService: CustomerService,
+    private val bookService: BookService
 ) {
 
     @PostMapping
@@ -37,8 +39,8 @@ class BookController(
     }
 
     @GetMapping
-    fun findAll(@PageableDefault(page= 0, size= 10)pageable: Pageable): Page<BookResponse> =
-        bookService.findAll(pageable).map { it.toResponse() }
+    fun findAll(@PageableDefault(page= 0, size= 10)pageable: Pageable): PageResponse<BookResponse> =
+        bookService.findAll(pageable).map { it.toResponse() }.toPageResponse()
 
     @GetMapping("/active")
     fun findActives(@PageableDefault(page= 0, size= 10)pageable: Pageable): Page<BookResponse> =

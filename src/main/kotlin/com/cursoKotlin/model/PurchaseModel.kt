@@ -20,14 +20,14 @@ data class PurchaseModel(
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    val cutomer: CustomerModel,
+    val customer: CustomerModel,
 
     @ManyToMany
     @JoinTable(name = "purchase_book",
         joinColumns = [JoinColumn(name = "purchaseId")],
         inverseJoinColumns = [JoinColumn(name= "book_id")]
         )
-    val book: MutableList<BookModel>,
+    val books: MutableList<BookModel>,
 
     @Column
     val nfe: String? = null,

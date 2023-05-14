@@ -54,6 +54,6 @@ class ControllerAdvice {
             Errors.ML000.code,
             null
         )
-        return ResponseEntity(error, HttpStatus.BAD_REQUEST)
+        return ResponseEntity(error, HttpStatus.FORBIDDEN)
     }
 }

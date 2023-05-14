@@ -6,10 +6,12 @@ import com.cursoKotlin.controller.dto.PutBookRequest
 import com.cursoKotlin.controller.dto.PutCustomerRequest
 import com.cursoKotlin.controller.dto.BookResponse
 import com.cursoKotlin.controller.dto.CustomerResponse
+import com.cursoKotlin.controller.dto.PageResponse
 import com.cursoKotlin.enuns.BookStatus
 import com.cursoKotlin.enuns.CustomerStatus
 import com.cursoKotlin.model.BookModel
 import com.cursoKotlin.model.CustomerModel
+import org.springframework.data.domain.Page
 
 fun PostCustomerRequest.toCustomerModel(): CustomerModel {
     return CustomerModel(
@@ -62,5 +64,14 @@ fun BookModel.toResponse(): BookResponse {
         customer = this.customer,
         price = this.price,
         status = this.status
+    )
+}
+
+fun <T> Page<T>.toPageResponse(): PageResponse<T> {
+    return PageResponse(
+        this.content,
+        this.number,
+        this.totalElements,
+        this.totalPages
     )
 }
